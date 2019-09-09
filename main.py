@@ -8,11 +8,14 @@ pygame.init()
 
 display = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
 
-v_set = 0.9 * c
+v_0 = 0.9 * c
+x_0 = 10
+w_0 = 300
 
-v = v_set
+v = v_0
 
 running = True
+q = False
 
 class Rectangle:
 
@@ -23,12 +26,12 @@ class Rectangle:
         self.h = h
 
     def draw(self):
+        pygame.draw.rect(display, (200, 200, 200), [self.x, self.y, self.w, self.h])
         pygame.draw.rect(display, (0, 0, 0), transform([self.x, self.y, self.w, self.h], v, t()) if v != 0 else [self.x, self.y, self.w, self.h])
 
-r = Rectangle(10, 10, 50, 10)
+r = Rectangle(x_0, 10, w_0, 10)
 
-while running:
-    display.fill((255, 255, 255))
+while not q:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -37,19 +40,22 @@ while running:
             quit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                v = v_set if v == 0 else 0
+                v = v_0 if v == 0 else 0
             elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
-                running = False
+                q = False
                 quit()
+            elif event.key == pygame.K_p:
+                running = not running
 
-    r.draw()
+    if running:
+        display.fill((255, 255, 255))
 
-    pygame.display.update()
+        r.draw()
 
-    time.sleep(1.0 / 60)
+        pygame.display.update()
 
-
-    print("Real Time: ", t(), "\tRelativistic Time: ", t_(10 + v * t(), v, t()))
-    r.draw()
-    
+        print("Real Time: ", t(), "\tRelativistic Time: ", t_(x_0 + v * t(), v, t()))
+        r.draw()
+    else:
+        pass

@@ -16,7 +16,7 @@ def gamma(v):
     return 1 / math.sqrt(1 - v**2 / c ** 2)
 
 def x_(x, v, t):
-    return gamma(v) * x #(x - v * t)
+    return math.sqrt(1 - v**2 / c ** 2) * x #(x - v * t)
 
 def t_(x, v, t):
     return gamma(v) * (t - v * x / c ** 2)
